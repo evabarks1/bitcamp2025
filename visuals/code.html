@@ -31,17 +31,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Discussion Board</title>
+  <title>Discussion Boards</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
     }
 
+    .board-button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+
+    .board-button:hover {
+      background-color: #218838;
+    }
+
     #discussion-board {
       width: 100%;
       max-width: 600px;
       margin: 0 auto;
+      display: none; /* Initially hidden */
     }
 
     textarea {
@@ -79,20 +95,42 @@
   </style>
 </head>
 <body>
-  <div id="discussion-board">
-    <h2>Discussion Board</h2>
-    <!-- Text input area -->
-    <textarea id="post-input" placeholder="Write your post here..."></textarea>
-    <button onclick="addPost()">Post</button>
+  <h1>Discussion Boards</h1>
+  <p>Select a discussion board to access:</p>
 
-    <!-- Posts will appear here -->
-    <div id="posts-container"></div>
+  <!-- Buttons to access different boards -->
+  <button class="board-button" onclick="showBoard('board1')">Board 1</button>
+  <button class="board-button" onclick="showBoard('board2')">Board 2</button>
+
+  <!-- Discussion boards -->
+  <div id="board1" class="discussion-board">
+    <h2>Board 1</h2>
+    <textarea id="post-input-board1" placeholder="Write your post here..."></textarea>
+    <button onclick="addPost('board1', 'post-input-board1')">Post</button>
+    <div id="posts-container-board1"></div>
+  </div>
+
+  <div id="board2" class="discussion-board">
+    <h2>Board 2</h2>
+    <textarea id="post-input-board2" placeholder="Write your post here..."></textarea>
+    <button onclick="addPost('board2', 'post-input-board2')">Post</button>
+    <div id="posts-container-board2"></div>
   </div>
 
   <script>
-    function addPost() {
-      const postInput = document.getElementById('post-input');
-      const postsContainer = document.getElementById('posts-container');
+    function showBoard(boardId) {
+      // Hide all boards
+      document.querySelectorAll('.discussion-board').forEach(board => {
+        board.style.display = 'none';
+      });
+
+      // Show the selected board
+      document.getElementById(boardId).style.display = 'block';
+    }
+
+    function addPost(boardId, inputId) {
+      const postInput = document.getElementById(inputId);
+      const postsContainer = document.getElementById(`posts-container-${boardId}`);
 
       // Get the user's input
       const postContent = postInput.value.trim();
